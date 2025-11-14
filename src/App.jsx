@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Home from "./Pages/Homepage/Home";
-import Card from "./Components/Card";
+
+import "./App.css";
 
 function App() {
   return (
     <>
       <Home />
-      <Card />
+     
     </>
   );
 }

@@ -5,20 +5,28 @@
 }
 
 .container {
-  border: 1px solid red;
-  width: 300px;
-  height: 400px;
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/500px-Good_Food_Display_-_NCI_Visuals_Online.jpg");
+  width: 200px;
+  height: 300px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  transition: all 0.2s ease-in-out;
+  border-radius: 30px;
 }
 
-.container h1 {
+.text {
   position: absolute;
   bottom: 0;
   color: white;
   text-align: center;
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0px 0px 30px 30px;
+  padding: 10px;
+}
+
+.container:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.2);
 }
