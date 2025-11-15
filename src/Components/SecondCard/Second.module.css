@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.box {
+  height: 200px;
+  border: 1px solid blue;
+  display: flex;
+  column-gap: 20px;
+  padding: 15px;
+}
+
+.imgbox {
+  min-width: 200px;
+  border-radius: 15px;
+  border: 1px solid green;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

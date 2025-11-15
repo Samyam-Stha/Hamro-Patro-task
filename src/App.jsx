@@ -1,13 +1,16 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Home from "./Pages/Homepage/Home";
 
 import "./App.css";
+import Second from "./Components/SecondCard/Second";
 
 function App() {
   return (
     <>
-      <Home />
-     
+      <section>
+        <Home />
+        {/* <Second /> */}
+      </section>
     </>
   );
 }
