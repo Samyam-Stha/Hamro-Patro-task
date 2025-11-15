@@ -58,13 +58,18 @@ export default function Details() {
 
   return (
     <section className={styles.detailbox}>
-      <img
+      {/* <img
         className={styles.imgmain}
         src={meal.strMealThumb}
         alt={meal.strMeal}
         width="300"
-      />
-      <div className={styles.content}>
+      /> */}
+      <div
+        className={styles.detailscontent}
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url(${meal.strMealThumb})`,
+        }}
+      >
         <div className={styles.titlebox}>
           <h1>{meal.strMeal}</h1>
           <div>
@@ -72,30 +77,31 @@ export default function Details() {
             <p>Area: {meal.strArea}</p>
           </div>
         </div>
-        <hr></hr>
-        <br></br>
-        <h3>Ingredients</h3>
-        {items.map((item, index) => (
-          <ul>
-            <li key={index}>
-              {item}: {measures[index]}
-            </li>
-          </ul>
-        ))}
-        <br></br>
-        <hr></hr>
-        <br></br>
-        <h3>Instructions:</h3>
-        <span>
-          <a href={meal.strYoutube} target="_blank">
-            Tutorial Video
-          </a>
-        </span>
-        <ol>
-          {steps.map((step, index) => (
-            <li key={index}>{step}</li>
+      </div>
+      <div className={styles.instructionbox}>
+        <div className={styles.ingredients}>
+          <h3>Ingredients</h3>
+          {items.map((item, index) => (
+            <ul>
+              <li key={index}>
+                {item}: {measures[index]}
+              </li>
+            </ul>
           ))}
-        </ol>
+        </div>
+        <div className={styles.instructions}>
+          <h3>Instructions:</h3>
+          <span>
+            <a href={meal.strYoutube} target="_blank">
+              Tutorial
+            </a>
+          </span>
+          <ol>
+            {steps.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
