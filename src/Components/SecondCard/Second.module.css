@@ -6,17 +6,40 @@
 
 .box {
   height: 200px;
-  border: 1px solid blue;
+  background-color: rgba(128, 128, 128, 0.206);
   display: flex;
   column-gap: 20px;
-  padding: 15px;
+  padding: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.box:hover {
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .imgbox {
-  min-width: 200px;
+  max-width: 200px;
   border-radius: 15px;
-  border: 1px solid green;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  width: 100%;
+}
+
+.des {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+.des p {
+  color: rgb(116, 106, 106);
 }

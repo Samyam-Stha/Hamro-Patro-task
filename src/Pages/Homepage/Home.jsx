@@ -35,34 +35,38 @@ export default function Home() {
 
   return (
     <>
-      {/* <nav className={styles.navbar}>
-        <div className={styles.navcontainer}>
-          <input
-            type="text"
-            placeholder="Search Recipe..."
-            className={styles.searchbox}
-          />
-        </div>
-      </nav> */}
-      <div className={styles.recipesGrid}>
-        {recipes.map((meal) => {
-          // return (
-          //   <Card
-          //     key={meal.idMeal}
-          //     image={meal.strMealThumb}
-          //     title={meal.strMeal}
-          //   />
-          // );
-          return (
-            <Second
-              key={meal.idMeal}
-              image={meal.strMealThumb}
-              title={meal.strMeal}
-              ingredients={getIngredients(meal)}
+      <section>
+        <nav className={styles.navbar}>
+          <div className={styles.navcontainer}>
+            <input
+              type="text"
+              placeholder="Search Recipe..."
+              className={styles.searchbox}
             />
-          );
-        })}
-      </div>
+          </div>
+        </nav>
+        <div className={styles.recipesGrid}>
+          {recipes.map((meal) => {
+            // return (
+            //   <Card
+            //     key={meal.idMeal}
+            //     image={meal.strMealThumb}
+            //     title={meal.strMeal}
+            //   />
+            // );
+            return (
+              <Second
+                key={meal.idMeal}
+                id={meal.idMeal}
+                image={meal.strMealThumb}
+                title={meal.strMeal}
+                ingredients={getIngredients(meal)}
+                area={meal.strArea}
+              />
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 }
