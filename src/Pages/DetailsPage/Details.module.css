@@ -10,6 +10,7 @@
   min-height: 100vh;
   column-gap: 20px;
   width: 100vw;
+  background-color: rgba(128, 128, 128, 0.155);
 }
 .content {
   text-align: justify;
@@ -17,10 +18,19 @@
   /* border: 1px solid red; */
   padding: 20px;
   border-radius: 15px;
+  background-color: white;
 }
-
 .content {
   width: 100%;
+}
+.content ol {
+  margin-left: 12px;
+}
+.content ol li {
+  margin-bottom: 8px;
+}
+.content ul {
+  margin-left: 12px;
 }
 
 .titlebox {
