@@ -42,3 +42,19 @@
   gap: 20px;
   width: 100%;
 }
+@media (max-width: 480px) {
+  .navbar {
+    height: 250px;
+    margin-bottom: 20px;
+  }
+  .searchbox {
+    width: 90%;
+    height: 40px;
+    font-size: 14px;
+    padding: 0 15px;
+  }
+  .recipesGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

@@ -5,7 +5,9 @@ import styles from "./Navbar.module.css";
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <h2>My Recipe App</h2>
+      <h2>
+        <Link to="/">Recipes</Link>
+      </h2>
       <ul className={styles.navlinks}>
         <li>
           <Link to="/">Home</Link>
@@ -14,7 +16,7 @@ export default function Navbar() {
           <Link to="/form">Add Recipe</Link>
         </li>
         <li>
-            <Link to="/myrecipe">My Recipe</Link>
+          <Link to="/myrecipe">My Recipe</Link>
         </li>
       </ul>
     </nav>

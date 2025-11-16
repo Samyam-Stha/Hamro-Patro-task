@@ -47,3 +47,32 @@
 .ingredientRow input {
   flex: 1;
 }
+
+@media (max-width: 768px) {
+  .formbox {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .ingredientRow {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .formbox {
+    width: 100%;
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .formbox input,
+  .formbox textarea {
+    font-size: 0.9rem;
+  }
+
+  .formbox button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}

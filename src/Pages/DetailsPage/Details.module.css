@@ -79,3 +79,16 @@
 .instructions ol {
   margin-left: 15px;
 }
+
+@media (max-width: 480px) {
+  .instructionbox {
+    flex-direction: column;
+  }
+
+  .ingredients {
+    width: 100%;
+  }
+  .instructions {
+    width: 100%;
+  }
+}

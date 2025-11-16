@@ -15,7 +15,9 @@ export default function Second({ id, image, title, ingredients, area, type }) {
 
   return (
     <div className={styles.box} onClick={handleClick}>
-      <img className={styles.imgbox} src={image} alt={title} />
+      <div className={styles.imgconatiner}>
+        <img className={styles.imgbox} src={image} alt={title} />
+      </div>
 
       <div className={styles.content}>
         <div className={styles.des}>

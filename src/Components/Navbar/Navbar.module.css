@@ -6,6 +6,10 @@
   background-color: rgba(136, 125, 125, 0.116);
   color: black;
 }
+.navbar h2 a {
+  color: Black;
+  text-decoration: none;
+}
 
 .navlinks {
   list-style: none;
@@ -21,4 +25,22 @@
 
 .navlinks li a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 12px 20px 12px 15px;
+    gap: 10px;
+    width: 100%;
+  }
+  .navbar h2 a {
+    font-size: 18px;
+  }
+  .navlinks {
+    gap: 8px;
+    font-size: 12px;
+  }
+  .navlinks li a {
+    font-size: 12px;
+  }
 }
