@@ -64,3 +64,10 @@
     gap: 20px;
   }
 }
+
+@media (orientation: landscape) {
+  .recipesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
