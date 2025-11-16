@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "../DetailsPage/Details.module.css";
+import stylestwo from "./MyRecipeDetails.module.css";
 
 export default function MyRecipeDetails() {
   const { id } = useParams();
@@ -16,7 +17,6 @@ export default function MyRecipeDetails() {
   }, [id]);
 
   if (!meal) return <h2>Loading</h2>;
-
 
   const steps = meal.strInstructions
     ? meal.strInstructions.split("\n").filter((s) => s.trim() !== "")
@@ -43,7 +43,6 @@ export default function MyRecipeDetails() {
   const items = getIngredients(meal);
   const measures = getMeasurements(meal);
 
- 
   const deleteMeal = () => {
     const savedData = JSON.parse(localStorage.getItem("meals")) || {
       meals: [],
@@ -51,10 +50,9 @@ export default function MyRecipeDetails() {
     const updatedMeals = savedData.meals.filter((m) => m.idMeal != id);
     localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
     alert("Meal deleted successfully!");
-    navigate("/myrecipe"); 
+    navigate("/myrecipe");
   };
 
-  
   const modifyMeal = () => {
     navigate(`/form?editId=${id}`);
   };
@@ -64,7 +62,9 @@ export default function MyRecipeDetails() {
       <div
         className={styles.detailscontent}
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url(${meal.strMealThumb})`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.8)), url(${encodeURI(
+            meal.strMealThumb
+          )})`,
         }}
       >
         <div className={styles.titlebox}>
@@ -74,26 +74,14 @@ export default function MyRecipeDetails() {
             <p>Area: {meal.strArea}</p>
           </div>
         </div>
-      </div>
-
-      <div >
-        <button
-          onClick={modifyMeal}
-         
-        >
-          Modify
-        </button>
-        <button
-          onClick={deleteMeal}
-          style={{
-            padding: "10px",
-            cursor: "pointer",
-            backgroundColor: "red",
-            color: "#fff",
-          }}
-        >
-          Delete
-        </button>
+        <div className={stylestwo.buttons}>
+          <button onClick={modifyMeal} className={stylestwo.button1}>
+            Modify
+          </button>
+          <button onClick={deleteMeal} className={stylestwo.button2}>
+            Delete
+          </button>
+        </div>
       </div>
 
       <div className={styles.instructionbox}>

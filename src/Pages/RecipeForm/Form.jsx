@@ -6,14 +6,13 @@ export default function Form() {
   const navigate = useNavigate();
   const location = useLocation();
 
- 
   const queryParams = new URLSearchParams(location.search);
   const editId = queryParams.get("editId");
 
   const [meals, setMeals] = useState([]);
 
   const [mealName, setMealName] = useState("");
-  const [mealCategory, setMealCategory] = useState("");
+  const [mealCategory, setMealCategory] = useState("Miscellaneous");
   const [mealArea, setMealArea] = useState("");
   const [mealInstruction, setMealInstruction] = useState("");
   const [mealThumb, setMealThumb] = useState("");
@@ -34,14 +33,13 @@ export default function Form() {
       const mealToEdit = savedMeals.meals.find((m) => m.idMeal == editId);
       if (mealToEdit) {
         setMealName(mealToEdit.strMeal || "");
-        setMealCategory(mealToEdit.strCategory || "");
+        setMealCategory(mealToEdit.strCategory || "Miscellaneous");
         setMealArea(mealToEdit.strArea || "");
         setMealInstruction(mealToEdit.strInstructions || "");
         setMealThumb(mealToEdit.strMealThumb || "");
         setMealTag(mealToEdit.strTags || "");
         setMealYoutube(mealToEdit.strYoutube || "");
 
-        
         const ing = [];
         const meas = [];
         for (let i = 1; i <= 20; i++) {
@@ -80,19 +78,28 @@ export default function Form() {
     return obj;
   };
 
-  const handleSubmit = () => {
-    if (!mealName) return;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      !mealName.trim() ||
+      !mealArea.trim() ||
+      !mealInstruction.trim() ||
+      !ingredients[0].trim()
+    ) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
     const ingredientFields = ingredientsMeasurements();
 
     if (editId) {
-      
       const updatedMeals = meals.map((m) =>
         m.idMeal == editId
           ? {
               ...m,
               strMeal: mealName,
-              strCategory: mealCategory,
+              strCategory: mealCategory || "Miscellaneous",
               strArea: mealArea,
               strInstructions: mealInstruction,
               strMealThumb: mealThumb,
@@ -106,12 +113,11 @@ export default function Form() {
       localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
       alert("Meal updated successfully!");
     } else {
-     
       const newMeal = {
         idMeal: Date.now().toString(),
         strMeal: mealName,
         strMealAlternate: null,
-        strCategory: mealCategory,
+        strCategory: mealCategory || "Miscellaneous",
         strArea: mealArea,
         strInstructions: mealInstruction,
         strMealThumb: mealThumb,
@@ -125,7 +131,7 @@ export default function Form() {
       const updatedMeals = [...meals, newMeal];
       setMeals(updatedMeals);
       localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
-      alert("Meal added successfully!");
+      alert("Recipe added successfully!");
     }
 
     navigate("/myrecipe");
@@ -133,13 +139,14 @@ export default function Form() {
 
   return (
     <section className={styles.formconatiner}>
-      <form className={styles.formbox} onSubmit={(e) => e.preventDefault()}>
+      <form className={styles.formbox} onSubmit={handleSubmit}>
         <h1>{editId ? "Edit Meal" : "Add Meal"}</h1>
 
         <input
           value={mealName}
           onChange={(e) => setMealName(e.target.value)}
           placeholder="Meal Name"
+          required
         />
         <input
           value={mealCategory}
@@ -150,17 +157,37 @@ export default function Form() {
           value={mealArea}
           onChange={(e) => setMealArea(e.target.value)}
           placeholder="Area"
+          required
         />
-        <input
+        <textarea
           value={mealInstruction}
           onChange={(e) => setMealInstruction(e.target.value)}
           placeholder="Instructions"
+          required
         />
+
+     
+        <label>Thumbnail:</label>
         <input
-          value={mealThumb}
-          onChange={(e) => setMealThumb(e.target.value)}
-          placeholder="Thumbnail"
+          type="file"
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = () => setMealThumb(reader.result);
+              reader.readAsDataURL(file);
+            }
+          }}
         />
+        {mealThumb && (
+          <img
+            src={mealThumb}
+            alt="Thumbnail Preview"
+            style={{ width: "150px", marginTop: "10px", borderRadius: "10px" }}
+          />
+        )}
+
         <input
           value={mealTag}
           onChange={(e) => setMealTag(e.target.value)}
@@ -176,14 +203,15 @@ export default function Form() {
         {ingredients.map((item, index) => (
           <div
             key={index}
-            style={{ marginBottom: "10px" }}
             className={styles.ingredientRow}
+            style={{ marginBottom: "10px" }}
           >
             <input
               type="text"
               placeholder={`Ingredient ${index + 1}`}
               value={ingredients[index]}
               onChange={(e) => updateIngredient(index, e.target.value)}
+              required={index === 0} 
             />
             <input
               type="text"
@@ -197,9 +225,7 @@ export default function Form() {
           + Add Ingredient
         </button>
 
-        <button type="button" onClick={handleSubmit}>
-          {editId ? "Update Meal" : "Submit"}
-        </button>
+        <button type="submit">{editId ? "Update Meal" : "Submit"}</button>
       </form>
     </section>
   );

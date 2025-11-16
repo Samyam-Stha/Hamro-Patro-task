@@ -47,7 +47,8 @@
   color: white;
   border-radius: 15px;
   padding: 20px;
-  background-image: linear-gradient(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
 }
 
 .ingredients ul {

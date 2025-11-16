@@ -2,15 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background-color: rgba(136, 125, 125, 0.116); 
+  padding: 16px 20px;
+  background-color: rgba(136, 125, 125, 0.116);
   color: black;
 }
 
 .navlinks {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 16px;
 }
 
 .navlinks li a {

@@ -47,7 +47,6 @@ export default function Home() {
       <section>
         <nav className={styles.navbar}>
           <div className={styles.navcontainer}>
-            <button onClick={toForm}>Form</button>
             <input
               type="text"
               placeholder="Search Recipe..."
