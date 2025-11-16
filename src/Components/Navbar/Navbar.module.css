@@ -55,7 +55,7 @@
 }
 @media (min-width: 480px) and (max-width: 768px) {
   .navbar {
-    padding: 12px 10px;
+    padding: 12px 30px;
   }
   .navlinks {
     gap: 20px;
