@@ -12,7 +12,7 @@ export default function Form() {
   const [meals, setMeals] = useState([]);
 
   const [mealName, setMealName] = useState("");
-  const [mealCategory, setMealCategory] = useState("Miscellaneous");
+  const [mealCategory, setMealCategory] = useState(""); // 🔥 Start blank
   const [mealArea, setMealArea] = useState("");
   const [mealInstruction, setMealInstruction] = useState("");
   const [mealThumb, setMealThumb] = useState("");
@@ -32,7 +32,7 @@ export default function Form() {
       const mealToEdit = savedMeals.meals.find((m) => m.idMeal == editId);
       if (mealToEdit) {
         setMealName(mealToEdit.strMeal || "");
-        setMealCategory(mealToEdit.strCategory || "Miscellaneous");
+        setMealCategory(mealToEdit.strCategory || "");
         setMealArea(mealToEdit.strArea || "");
         setMealInstruction(mealToEdit.strInstructions || "");
         setMealThumb(mealToEdit.strMealThumb || "");
@@ -92,22 +92,28 @@ export default function Form() {
 
     const ingredientFields = ingredientsMeasurements();
 
+    const categoryValue = mealCategory.trim() || "Miscellaneous";
+
+    const cleanedTags = mealTag.trim() === "" ? null : mealTag;
+    const cleanedYoutube = mealYoutube.trim() === "" ? null : mealYoutube;
+
     if (editId) {
       const updatedMeals = meals.map((m) =>
         m.idMeal == editId
           ? {
               ...m,
               strMeal: mealName,
-              strCategory: mealCategory || "Miscellaneous",
+              strCategory: categoryValue,
               strArea: mealArea,
               strInstructions: mealInstruction,
               strMealThumb: mealThumb,
-              strTags: mealTag,
-              strYoutube: mealYoutube,
+              strTags: cleanedTags,
+              strYoutube: cleanedYoutube,
               ...ingredientFields,
             }
           : m
       );
+
       setMeals(updatedMeals);
       localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
       alert("Meal updated successfully!");
@@ -116,16 +122,13 @@ export default function Form() {
         idMeal: Date.now().toString(),
         strMeal: mealName,
         strMealAlternate: null,
-        strCategory: mealCategory || "Miscellaneous",
+        strCategory: categoryValue,
         strArea: mealArea,
         strInstructions: mealInstruction,
         strMealThumb: mealThumb,
         strTags: mealTag,
         strYoutube: mealYoutube,
         ...ingredientFields,
-        strSource: null,
-        strImageSource: null,
-        dateModified: null,
       };
       const updatedMeals = [...meals, newMeal];
       setMeals(updatedMeals);
@@ -139,7 +142,7 @@ export default function Form() {
   return (
     <section className={styles.formconatiner}>
       <form className={styles.formbox} onSubmit={handleSubmit}>
-        <h1>{editId ? "Edit Meal" : "Add Meal"}</h1>
+        <h1>{editId ? "Edit Recipe" : "Add Recipe"}</h1>
 
         <input
           value={mealName}
@@ -147,26 +150,29 @@ export default function Form() {
           placeholder="Meal Name"
           required
         />
+
         <input
           value={mealCategory}
           onChange={(e) => setMealCategory(e.target.value)}
           placeholder="Category"
         />
+
         <input
           value={mealArea}
           onChange={(e) => setMealArea(e.target.value)}
           placeholder="Area"
           required
         />
+
         <textarea
           className={styles.instructionarea}
           value={mealInstruction}
           onChange={(e) => setMealInstruction(e.target.value)}
-          placeholder="Instructions"
+          placeholder="Instructions (Press Enter To Separate Steps)"
           required
         />
 
-        <label>Thumbnail:</label>
+        <h3>Thumbnail:</h3>
         <input
           type="file"
           accept="image/*"
@@ -179,6 +185,7 @@ export default function Form() {
             }
           }}
         />
+
         {mealThumb && (
           <img
             src={mealThumb}
@@ -192,6 +199,7 @@ export default function Form() {
           onChange={(e) => setMealTag(e.target.value)}
           placeholder="Tags"
         />
+
         <input
           value={mealYoutube}
           onChange={(e) => setMealYoutube(e.target.value)}
@@ -199,12 +207,9 @@ export default function Form() {
         />
 
         <h3>Ingredients & Measures</h3>
+
         {ingredients.map((item, index) => (
-          <div 
-            key={index}
-            className={styles.ingredientRow}
-            style={{ marginBottom: "10px" }}
-          >
+          <div key={index} className={styles.ingredientRow}>
             <input
               type="text"
               placeholder={`Ingredient ${index + 1}`}
@@ -220,6 +225,7 @@ export default function Form() {
             />
           </div>
         ))}
+
         <button type="button" onClick={addIngredientRow}>
           + Add Ingredient
         </button>
