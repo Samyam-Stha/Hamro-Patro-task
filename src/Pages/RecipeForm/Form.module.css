@@ -17,16 +17,17 @@
   /* border: 1px solid green; */
   gap: 20px;
   width: 50%;
-  padding: 20px;
+  padding: 20px 40px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: rgba(136, 125, 125, 0.116);
+  border-radius: 15px;
 }
 
 .formbox input {
   padding: 10px;
   border-radius: 15px;
   outline: none;
-  border: none;
+  border: 1px solid black;
 }
 .formbox button {
   padding: 10px;
@@ -36,6 +37,14 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+.instructionarea {
+  border-radius: 15px;
+  padding: 10px;
+  outline: none;
+  border: 1px solid black;
+  height: 200px;
 }
 
 .ingredientRow {
@@ -68,11 +77,21 @@
 
   .formbox input,
   .formbox textarea {
-    font-size: 0.9rem;
+    font-size: 14px;
   }
 
   .formbox button {
     font-size: 0.9rem;
     padding: 8px;
+  }
+
+  .ingredientRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .ingredientRow input {
+    max-width: 48%;
   }
 }

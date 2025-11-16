@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 16px 50px;
   background-color: rgba(136, 125, 125, 0.116);
   color: black;
 }
@@ -14,13 +14,18 @@
 .navlinks {
   list-style: none;
   display: flex;
-  gap: 16px;
+  gap: 50px;
 }
 
 .navlinks li a {
   color: black;
   text-decoration: none;
   font-weight: bold;
+}
+.navlinks li:nth-child(1) a,
+.navlinks li:nth-child(2) a {
+  border-right: 1px solid black;
+  padding-right: 60px;
 }
 
 .navlinks li a:hover {
@@ -42,5 +47,9 @@
   }
   .navlinks li a {
     font-size: 12px;
+  }
+  .navlinks li:nth-child(1) a,
+  .navlinks li:nth-child(2) a {
+    padding-right: 10px;
   }
 }

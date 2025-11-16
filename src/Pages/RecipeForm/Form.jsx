@@ -22,7 +22,6 @@ export default function Form() {
   const [ingredients, setIngredients] = useState([""]);
   const [measures, setMeasures] = useState([""]);
 
-
   useEffect(() => {
     const savedMeals = JSON.parse(localStorage.getItem("meals")) || {
       meals: [],
@@ -160,13 +159,13 @@ export default function Form() {
           required
         />
         <textarea
+          className={styles.instructionarea}
           value={mealInstruction}
           onChange={(e) => setMealInstruction(e.target.value)}
           placeholder="Instructions"
           required
         />
 
-     
         <label>Thumbnail:</label>
         <input
           type="file"
@@ -201,7 +200,7 @@ export default function Form() {
 
         <h3>Ingredients & Measures</h3>
         {ingredients.map((item, index) => (
-          <div
+          <div 
             key={index}
             className={styles.ingredientRow}
             style={{ marginBottom: "10px" }}
@@ -211,11 +210,11 @@ export default function Form() {
               placeholder={`Ingredient ${index + 1}`}
               value={ingredients[index]}
               onChange={(e) => updateIngredient(index, e.target.value)}
-              required={index === 0} 
+              required={index === 0}
             />
             <input
               type="text"
-              placeholder={`Measure ${index + 1}`}
+              placeholder={`Measurement ${index + 1}`}
               value={measures[index]}
               onChange={(e) => updateMeasure(index, e.target.value)}
             />
