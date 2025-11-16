@@ -13,7 +13,7 @@ export default function Second({ id,image, title, ingredients, area }) {
           <div className={styles.des}>
             <h2>{title}</h2>
             <p>{area}</p>
-          </div>
+          </div> 
           <p>{ingredients}</p>
         </div>
       </div>
