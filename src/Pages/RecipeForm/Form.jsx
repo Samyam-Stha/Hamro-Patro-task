@@ -12,7 +12,7 @@ export default function Form() {
   const [meals, setMeals] = useState([]);
 
   const [mealName, setMealName] = useState("");
-  const [mealCategory, setMealCategory] = useState(""); // 🔥 Start blank
+  const [mealCategory, setMealCategory] = useState(""); 
   const [mealArea, setMealArea] = useState("");
   const [mealInstruction, setMealInstruction] = useState("");
   const [mealThumb, setMealThumb] = useState("");
