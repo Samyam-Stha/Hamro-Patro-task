@@ -53,14 +53,4 @@
     padding-right: 5px;
   }
 }
-@media (orientation: landscape) {
-  .navbar {
-    padding: 15px 10px;
-    gap: 0px;
-    width: 100vw;
-  }
-  .navlinks li:nth-child(1) a,
-  .navlinks li:nth-child(2) a {
-    padding-right: 5px;
-  }
-}
+
