@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../DetailsPage/Details.module.css";
 
 export default function MyRecipeDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [meal, setMeal] = useState(null);
 
   useEffect(() => {
-    const savedData = JSON.parse(localStorage.getItem("meals")) || { meals: [] };
-
-
+    const savedData = JSON.parse(localStorage.getItem("meals")) || {
+      meals: [],
+    };
     const foundMeal = savedData.meals.find((m) => m.idMeal == id);
-
     setMeal(foundMeal);
   }, [id]);
 
@@ -43,6 +43,22 @@ export default function MyRecipeDetails() {
   const items = getIngredients(meal);
   const measures = getMeasurements(meal);
 
+ 
+  const deleteMeal = () => {
+    const savedData = JSON.parse(localStorage.getItem("meals")) || {
+      meals: [],
+    };
+    const updatedMeals = savedData.meals.filter((m) => m.idMeal != id);
+    localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
+    alert("Meal deleted successfully!");
+    navigate("/myrecipe"); 
+  };
+
+  
+  const modifyMeal = () => {
+    navigate(`/form?editId=${id}`);
+  };
+
   return (
     <section className={styles.detailbox}>
       <div
@@ -60,10 +76,29 @@ export default function MyRecipeDetails() {
         </div>
       </div>
 
+      <div >
+        <button
+          onClick={modifyMeal}
+         
+        >
+          Modify
+        </button>
+        <button
+          onClick={deleteMeal}
+          style={{
+            padding: "10px",
+            cursor: "pointer",
+            backgroundColor: "red",
+            color: "#fff",
+          }}
+        >
+          Delete
+        </button>
+      </div>
+
       <div className={styles.instructionbox}>
         <div className={styles.ingredients}>
           <h3>Ingredients</h3>
-
           <ul>
             {items.map((item, index) => (
               <li key={index}>
@@ -78,7 +113,7 @@ export default function MyRecipeDetails() {
 
           {meal.strYoutube && (
             <span>
-              <a href={meal.strYoutube} target="_blank" >
+              <a href={meal.strYoutube} target="_blank">
                 Tutorial
               </a>
             </span>
