@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Form.module.css";
 
 export default function Form() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+ 
+  const queryParams = new URLSearchParams(location.search);
+  const editId = queryParams.get("editId");
+
   const [meals, setMeals] = useState([]);
 
   const [mealName, setMealName] = useState("");
@@ -15,12 +23,36 @@ export default function Form() {
   const [ingredients, setIngredients] = useState([""]);
   const [measures, setMeasures] = useState([""]);
 
+
   useEffect(() => {
     const savedMeals = JSON.parse(localStorage.getItem("meals")) || {
       meals: [],
     };
     setMeals(savedMeals.meals);
-  }, []);
+
+    if (editId) {
+      const mealToEdit = savedMeals.meals.find((m) => m.idMeal == editId);
+      if (mealToEdit) {
+        setMealName(mealToEdit.strMeal || "");
+        setMealCategory(mealToEdit.strCategory || "");
+        setMealArea(mealToEdit.strArea || "");
+        setMealInstruction(mealToEdit.strInstructions || "");
+        setMealThumb(mealToEdit.strMealThumb || "");
+        setMealTag(mealToEdit.strTags || "");
+        setMealYoutube(mealToEdit.strYoutube || "");
+
+        
+        const ing = [];
+        const meas = [];
+        for (let i = 1; i <= 20; i++) {
+          ing.push(mealToEdit[`strIngredient${i}`] || "");
+          meas.push(mealToEdit[`strMeasure${i}`] || "");
+        }
+        setIngredients(ing);
+        setMeasures(meas);
+      }
+    }
+  }, [editId]);
 
   const addIngredientRow = () => {
     setIngredients([...ingredients, ""]);
@@ -48,45 +80,61 @@ export default function Form() {
     return obj;
   };
 
-  const addMeal = () => {
+  const handleSubmit = () => {
     if (!mealName) return;
 
     const ingredientFields = ingredientsMeasurements();
 
-    const newMeal = {
-      idMeal: Date.now().toString(),
-      strMeal: mealName,
-      strMealAlternate: null,
-      strCategory: mealCategory,
-      strArea: mealArea,
-      strInstructions: mealInstruction,
-      strMealThumb: mealThumb,
-      strTags: mealTag,
-      strYoutube: mealYoutube,
-      ...ingredientFields,
-      strSource: null,
-      strImageSource: null,
-      dateModified: null,
-    };
+    if (editId) {
+      
+      const updatedMeals = meals.map((m) =>
+        m.idMeal == editId
+          ? {
+              ...m,
+              strMeal: mealName,
+              strCategory: mealCategory,
+              strArea: mealArea,
+              strInstructions: mealInstruction,
+              strMealThumb: mealThumb,
+              strTags: mealTag,
+              strYoutube: mealYoutube,
+              ...ingredientFields,
+            }
+          : m
+      );
+      setMeals(updatedMeals);
+      localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
+      alert("Meal updated successfully!");
+    } else {
+     
+      const newMeal = {
+        idMeal: Date.now().toString(),
+        strMeal: mealName,
+        strMealAlternate: null,
+        strCategory: mealCategory,
+        strArea: mealArea,
+        strInstructions: mealInstruction,
+        strMealThumb: mealThumb,
+        strTags: mealTag,
+        strYoutube: mealYoutube,
+        ...ingredientFields,
+        strSource: null,
+        strImageSource: null,
+        dateModified: null,
+      };
+      const updatedMeals = [...meals, newMeal];
+      setMeals(updatedMeals);
+      localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
+      alert("Meal added successfully!");
+    }
 
-    const updatedMeals = [...meals, newMeal];
-    setMeals(updatedMeals);
-    localStorage.setItem("meals", JSON.stringify({ meals: updatedMeals }));
-    setMealName("");
-    setMealCategory("");
-    setMealArea("");
-    setMealInstruction("");
-    setMealThumb("");
-    setMealTag("");
-    setMealYoutube("");
-    setIngredients([""]);
-    setMeasures([""]);
+    navigate("/myrecipe");
   };
 
   return (
     <section className={styles.formconatiner}>
-      <form className={styles.formbox}>
-        <h1>Meals</h1>
+      <form className={styles.formbox} onSubmit={(e) => e.preventDefault()}>
+        <h1>{editId ? "Edit Meal" : "Add Meal"}</h1>
 
         <input
           value={mealName}
@@ -149,11 +197,9 @@ export default function Form() {
           + Add Ingredient
         </button>
 
-        <button onClick={addMeal}>Submit</button>
-
-        <hr />
-
-      
+        <button type="button" onClick={handleSubmit}>
+          {editId ? "Update Meal" : "Submit"}
+        </button>
       </form>
     </section>
   );

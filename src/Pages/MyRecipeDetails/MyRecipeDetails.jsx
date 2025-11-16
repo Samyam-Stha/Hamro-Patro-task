@@ -1,58 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./Details.module.css";
+import styles from "../DetailsPage/Details.module.css";
 
-export default function Details() {
+export default function MyRecipeDetails() {
   const { id } = useParams();
   const [meal, setMeal] = useState(null);
-  const [error, setError] = useState(false);
-
-  const URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(URL);
-        const recipeDetails = await res.json();
+    const savedData = JSON.parse(localStorage.getItem("meals")) || { meals: [] };
 
-        if (!recipeDetails.meals) {
-          setError(true);
-          return;
-        }
 
-        setMeal(recipeDetails.meals[0]);
-      } catch (e) {
-        console.error(e);
-        setError(true);
-      }
-    };
+    const foundMeal = savedData.meals.find((m) => m.idMeal == id);
 
-    fetchData();
+    setMeal(foundMeal);
   }, [id]);
 
-  if (error) return <h2>Meal not found</h2>;
-  if (!meal) return <h2>Loading...</h2>;
+  if (!meal) return <h2>Loading</h2>;
+
 
   const steps = meal.strInstructions
-    .split("\n")
-    .filter((step) => step.trim() !== "");
+    ? meal.strInstructions.split("\n").filter((s) => s.trim() !== "")
+    : [];
 
   function getIngredients(meal) {
-    const ingArr = [];
+    const list = [];
     for (let i = 1; i <= 20; i++) {
-      const ingredient = meal[`strIngredient${i}`];
-      if (ingredient && ingredient.trim() !== "") ingArr.push(ingredient);
+      const ing = meal[`strIngredient${i}`];
+      if (ing && ing.trim() !== "") list.push(ing);
     }
-    return ingArr;
+    return list;
   }
 
   function getMeasurements(meal) {
-    const mesArr = [];
+    const list = [];
     for (let i = 1; i <= 20; i++) {
-      const measurement = meal[`strMeasure${i}`];
-      if (measurement && measurement.trim() !== "") mesArr.push(measurement);
+      const m = meal[`strMeasure${i}`];
+      if (m && m.trim() !== "") list.push(m);
     }
-    return mesArr;
+    return list;
   }
 
   const items = getIngredients(meal);
@@ -78,22 +63,27 @@ export default function Details() {
       <div className={styles.instructionbox}>
         <div className={styles.ingredients}>
           <h3>Ingredients</h3>
-          {items.map((item, index) => (
-            <ul key={index}>
-              <li>
-                {item}: {measures[index]}
+
+          <ul>
+            {items.map((item, index) => (
+              <li key={index}>
+                {item}: {measures[index] || ""}
               </li>
-            </ul>
-          ))}
+            ))}
+          </ul>
         </div>
 
         <div className={styles.instructions}>
           <h3>Instructions:</h3>
-          <span>
-            <a href={meal.strYoutube} target="_blank">
-              Tutorial
-            </a>
-          </span>
+
+          {meal.strYoutube && (
+            <span>
+              <a href={meal.strYoutube} target="_blank" >
+                Tutorial
+              </a>
+            </span>
+          )}
+
           <ol>
             {steps.map((step, index) => (
               <li key={index}>{step}</li>
